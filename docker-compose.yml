@@ -26,9 +26,9 @@ services:
       - MY_VAULT_TOKEN=${MY_VAULT_TOKEN:-test}
     volumes:
       - ./vault-root-token:/vault/file/vault-root-token
-      - ./vault-init.sh:/usr/local/bin/vault-init.sh
+      - ./vault-init.sh:/vault/vault-init.sh
       - vault-data:/vault/file/
-    command: /usr/local/bin/vault-init.sh
+    command: sh -c "chmod +x /vault/vault-init.sh && /vault/vault-init.sh"
     restart: on-failure
     depends_on:
       - vault
