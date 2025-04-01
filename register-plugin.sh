@@ -2,6 +2,8 @@
 
 set -e
 
+mv /vault/vault-plugin-database-oracle /vault/plugins/
+
 # Calculate SHA256 checksum of the plugin
 PLUGIN_SHASUM=$(sha256sum /vault/plugins/vault-plugin-database-oracle | cut -d ' ' -f1)
 
