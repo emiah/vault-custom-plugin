@@ -10,6 +10,7 @@ services:
     volumes:
       - ./config.hcl:/vault/config/config.hcl
       - vault-data:/vault/file/
+      - vault-plugins:/vault/plugins/
     environment:
       - VAULT_ADDR=http://localhost:8200
     cap_add:
@@ -28,10 +29,12 @@ services:
       - ./vault-root-token:/vault/file/vault-root-token
       - ./vault-init.sh:/vault/vault-init.sh
       - vault-data:/vault/file/
-    command: sh -c "chmod +x /vault/vault-init.sh && /vault/vault-init.sh"
+      - vault-plugins:/vault/plugins/
+    command: sh -c "chmod +x /vault/vault-init.sh && /vault/vault-init.sh && /vault/register-plugin.sh"
     restart: on-failure
     depends_on:
       - vault
 
 volumes:
   vault-data:
+  vault-plugins:
