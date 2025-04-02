@@ -1,19 +1,3 @@
-#!/bin/sh
-
-set -e
-
-mv /vault/vault-plugin-database-oracle /vault/plugins/
-# Calculate SHA256 checksum of the plugin
-PLUGIN_SHASUM=$(sha256sum /vault/plugins/vault-plugin-database-oracle | cut -d ' ' -f1)
-
-# Register the plugin with Vault using its SHA256 checksum
-vault plugin register -sha256="$PLUGIN_SHASUM" database vault-plugin-database-oracle
-
-# Add the plugin to Vault's plugin catalog
-vault write sys/plugins/catalog/database/vault-plugin-database-oracle \
-    sha256="$PLUGIN_SHASUM" \
-    command="vault-plugin-database-oracle"
-root@psql-sit:/home/onefin/vault/vault-custom-plugin# cat Dockerfile
 FROM ubuntu:22.04
 
 ARG VAULT_VERSION=1.16.3
@@ -24,7 +8,6 @@ ARG ARCH=amd64
 RUN apt update && apt -y upgrade \
     && apt install -y gnupg wget unzip dumb-init libcap2-bin libaio1 gosu \
     && rm -rf /var/lib/apt/lists/*
-
 
 # Create vault user and group with consistent IDs
 RUN useradd -ms /bin/bash vault
